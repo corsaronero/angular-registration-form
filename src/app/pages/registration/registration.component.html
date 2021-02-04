@@ -1,0 +1,112 @@
+
+
+<div class="container box-block">
+	<div class="row">
+		<div class="col-md-12">
+			<ng-container *ngIf="compileData; else showData">
+				<div class="content-login">
+					<h2>Create account</h2>
+					<form name="form" (ngSubmit)="onSubmit(signupForm)" #f="ngForm" [formGroup]="signupForm" autocomplete="off">
+						<div class="form-group">
+							<label for="firstName">First Name <abbr class="required" title="required">*</abbr></label>
+							<input type="text" formControlName="firstName" class="form-control" name="firstName" maxlength="25"/>
+							<div *ngIf="signupForm.controls['firstName'].touched && !signupForm.controls['firstName'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['firstName'].hasError('required')">First Name is required</div> 
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="lastName">Last Name <abbr class="required" title="required">*</abbr></label>
+							<input type="text" formControlName="lastName" class="form-control" name="lastName" maxlength="25"/>
+							<div *ngIf="signupForm.controls['lastName'].touched && !signupForm.controls['lastName'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['lastName'].hasError('required')">Last Name is required</div> 
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="address">Address <abbr class="required" title="required">*</abbr></label>
+							<input type="text" formControlName="address" class="form-control" name="address" maxlength="50"/>
+							<div *ngIf="signupForm.controls['address'].touched && !signupForm.controls['address'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['address'].hasError('required')">Address is required</div> 
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="country">Country <abbr class="required" title="required">*</abbr></label>
+							<select name="country" [(ngModel)]="selectItem" (change)="changeCountry($event)" formControlName="country" class="country_to_state country_select">
+							  	<option [ngValue]="null" [disabled]="true" >Select a country…</option>
+							  	<option *ngFor = "let item of countries" [ngValue]="item">
+							   		{{item.name}}
+								</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="phone">Phone <abbr class="required" title="required">*</abbr></label>
+							<div class="box-phone">
+								<ng-container *ngIf="selectedImageCountry">
+									<div class="box-image-country">
+										<div class="image-country" style="background-image: url({{selectedImageCountry}});"></div>
+									</div>
+								</ng-container>
+								<fieldset [disabled]="activePhone">
+									<input type="text" formControlName="phone" mask="(000) 000-0000" class="form-control" name="phone"/>
+								</fieldset>
+							</div>
+							<div *ngIf="signupForm.controls['phone'].touched && !signupForm.controls['phone'].valid"> 
+							  <div class="form-err" *ngIf="signupForm.controls['phone'].hasError('required') ">Phone is required</div> 
+							  <div class="form-err" *ngIf="signupForm.controls['phone'].hasError('minlength')">Please, Enter 10 digit Mobile Number.</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email">Email <abbr class="required" title="required">*</abbr></label>
+							<input type="text" formControlName="email" class="form-control" name="email" required maxlength="50"/>
+							<div *ngIf="signupForm.controls['email'].touched && !signupForm.controls['email'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['email'].hasError('required')"> Email is required </div>  
+								<div class="form-err" *ngIf="signupForm.controls['email'].hasError('pattern')"> Invalid Email </div>       
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" formControlName="password" class="form-control" name="password" required/>
+							<div *ngIf="signupForm.controls['password'].touched && !signupForm.controls['password'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['password'].hasError('required') ">Password is required</div> 
+								<div class="form-err" *ngIf="signupForm.controls['password'].hasError('minlength') || signupForm.controls['password'].hasError('maxlength')">
+									Password must be between 2 and 6
+								</div>
+								<div class="form-err" *ngIf="signupForm.controls['password'].hasError('passwordStrength')">
+									{{signupForm.controls['password'].errors['passwordStrength']}}
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="confirmPassword">Confirm Password</label>
+							<input type="password" formControlName="confirmPassword" class="form-control" name="confirmPassword" required/>
+							<div *ngIf="signupForm.controls['confirmPassword'].touched && !signupForm.controls['confirmPassword'].valid"> 
+								<div class="form-err" *ngIf="signupForm.controls['confirmPassword'].hasError('required') ">Confirm Password is required</div> 
+							</div>
+							<div class="form-err" *ngIf="signupForm.controls['confirmPassword'].hasError('NoPassswordMatch')">Password doesn't match</div>
+						</div>
+						
+						<div class="form-group form-login-reg">
+							<button [disabled]="signupForm.invalid" class="btn btn-primary">Register</button>
+						</div>
+						<div class="error-msg">{{errorMessage}}</div>
+					</form>
+				</div>
+			</ng-container>
+			<ng-template #showData>
+				<div class="content-login answer-box">
+					<h3>Thanks {{signupForm.value.firstName}} {{signupForm.value.lastName}} for register on Synopsis</h3>
+					<p>Your data: </p>
+					<p>{{signupForm.value.country.name}}</p>
+					<p>{{signupForm.value.phone}}</p>
+					<p>{{signupForm.value.email}}</p>
+					<p>{{signupForm.value.password}}</p>
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</div>

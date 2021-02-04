@@ -1,0 +1,21 @@
+
+
+$grid-padding-width: 20px;
+$grid-padding-width-large: 60px;
+
+//////// COLORS ///////////////
+$buttonColor: #328ff0;
+$errorForm: #CF1009;
+
+$grid-breakpoints: (
+    xs: 0,
+    tn: 370px,
+    sm: 576px,
+    md: 767px,
+    lg: 992px,
+    xl: 1280px,
+    xxl: 1350px,
+    fhd: 1920px,
+    qhd: 2560px,
+    uhd: 3840px
+  ) !default;
